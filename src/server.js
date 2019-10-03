@@ -10,7 +10,7 @@ const urlStruct = {
   GET: {
     '/': htmlResponses.getIndex,
     '/style.css': htmlResponses.getCSS,
-    '/getUsers': responses.getUsers,
+    '/getquiz': responses.getQuiz,
     '/notReal': responses.getNotReal,
     notfound: responses.notFound,
   },
@@ -22,7 +22,7 @@ const urlStruct = {
 };
 
 const handlePost = (request, response, parsedUrl) => {
-  if (parsedUrl.pathname === '/addUser') {
+  if (parsedUrl.pathname === '/addQuiz') {
     const res = response;
 
     const body = [];
@@ -40,7 +40,7 @@ const handlePost = (request, response, parsedUrl) => {
     request.on('end', () => {
       const bodyString = Buffer.concat(body).toString();
       const bodyParams = query.parse(bodyString);
-      responses.addUser(request, res, bodyParams);
+      responses.addQuiz(request, res, bodyParams);
     });
   }
 };
@@ -49,7 +49,7 @@ const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
   const params = parsedUrl.query;
 
-  if (request.method === 'POST' && parsedUrl.pathname === '/addUser') {
+  if (request.method === 'POST' && parsedUrl.pathname === '/addQuiz') {
     handlePost(request, response, parsedUrl);
   } else if (urlStruct[request.method][parsedUrl.pathname]) {
     urlStruct[request.method][parsedUrl.pathname](request, response, params);

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quiz Creation</title>
+    <script>
+        const sendPost = (e, quizForm) => {
+            const qField = quizForm.querySelector('#qField');
+            const choiceArray = quizForm.querySelector('#choices');
+            const aField = quizForm.querySelector('#aField');
+
+            const xhr = new XMLHttpRequest();
+
+            xhr.open('/addQuiz', 'post');
+
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('Accept', 'application/json');
+
+            xhr.onload = () => handleResponse(xhr);
+
+            const formData = `qfield=${qField.value}&choiceArray=${choiceArray.value}&afield=${aField.value}`;
+            xhr.send(formData);
+
+            e.preventDefault();
+            return false;
+        };
+    </script>
+</head>
+
+<body>
+    <section id="top">
+        <h3>New Quiz</h3>
+        <p>below you can enter a question and the anwsers to Create
+            a new quiz! All quizes are added to the database and open
+            to the public.
+        </p>
+        <form id="quizCreator" action="/addQuiz" method="post">
+            <label for="queston">Question: </label>
+            <input id="qField" type="text" name="question" />
+            <label for="choices">Answer Choices: </label>
+            <input id="choiceField1" type="text" name="choices" />
+            <input id="choiceField2" type="text" name="choices" />
+            <input id="choiceField3" type="text" name="choices" />
+            <input id="choiceField4" type="text" name="choices" />
+            <label for="answer">Correct Answer: </label>
+            <input id="aField" type="text" name="answer" />
+            <input type="submit" value="Create Quiz" />
+        </form>
+</body>
+
+</html>

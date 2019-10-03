@@ -1,83 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Our simple HTTP server</title>
+  <title>Quiz Maker</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
-  const parseJSON = (xhr, content) =>{
+  const htmlResponses = require('../src/htmlResponses.js');
+  const parseJSON = (xhr) =>{
     const obj = JSON.parse(xhr.response);
-    
-    if(obj.message){
-      const p = document.createElement('p');
-      p.textContent = `Message: ${obj.message}`;
-      content.appendChild(p)
-    }
 
-    if(obj.users) {
-      const userList = document.createElement('p');
-      const user = JSON.stringify(obj.users);
-      userList.testContent = users;
-      content.appendChild(userList);
+    if(obj.quizes) {
+      return obj.quizes.value;
     }
   };
 
   const handleResponse = (xhr) =>{
-    const content = document.querySelector('#content');
 
-    switch(xhr.status){
-      case 200:
-        content.innerHTML = '<b> Success!</b>';
+    switch(xhr.url){
+      case '/getMake':
+        htmlResponses.getMake();
         break;
-      case 201:
-        content.innerHTML = '<b> Created!</b>';
-        break;
-      case 404:
-        content.innerHTML = '<b> Not found</b>';
-        break;
-      case 400:
-        content.innerHTML = '<b> Bad Request</b>';
+      case '/getQuiz':
+        const id = parseJSON(xhr);
+        htmlResponses.getQuiz();
         break;
       default:
-        content.innerHTML = 'Error Code not implemented'
+        htmlResponses.getIndex();
         break;
     }
-
-    parseJSON(xhr, content);
-  };
-
-  const sendPost = (e, nameForm) => {
-    const nameAction = nameForm.getAttribute('action');
-    const nameMethod = nameForm.getAttribute('method');
-
-    const nameField = nameForm.querySelector('#nameField');
-    const ageField = nameForm.querySelector('#ageField');
-
-    const xhr = new XMLHttpRequest();
-
-    xhr.open(nameMethod, nameAction);
-
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('Accept', 'application/json');
-
-    xhr.onload = ()=> handleResponse(xhr);
-
-    const formData = `name=${nameField.value}&age=${ageField.value}`;
-    xhr.send(formData);
-
-    e.preventDefault();
-    return false;
   };
 
   const userRequest = (e, userForm) => {
-    const url = userForm.querySelector('#urlField').value;
-    const type = userForm.querySelector('#methodSelect').value;
+    const url = userForm.getAttribute('action');
 
     const xhr = new XMLHttpRequest();
     xhr.open('get', url);
 
-    xhr.setRequestHeader('Accept', type);
+    xhr.setRequestHeader('Accept', 'get');
     xhr.onload = () => handleResponse(xhr);
     xhr.send();
 
@@ -86,40 +46,30 @@
   };
 
   const init = () => {
-    const userForm = document.querySelector('#userForm');
-    const getReg = (e) => userRequest(e,userForm);
-    const nameForm = document.querySelector('#nameForm');
-    const addUser = (e) => sendPost(e, nameForm);
+    const createQuiz = document.querySelector('#quizCreator');
+    const getReg = (e) => userRequest(e,createQuiz);
+    const getQuiz = document.querySelector('#userCreated');
+    const getReg = (e) => userRequest(e,getQuiz);
 
-    nameForm.addEventListener('submit', addUser);
-    userForm.addEventListener('submit', getReg);
+    createQuiz.addEventListener('submit', getReg);
+    getQuiz.addEventListener('submit', getReg);
   };
 
   </script>
 </head>
 <body>
   <section id="top">
-    <h3>POST Status Code Tests</h3>
-    <form id="nameForm" action="/addUser" method="post">
-      <label for="name">Name: </label>
-      <input id="nameField" type="text" name="name" />
-      <label for="age">Age: </label>
-      <input id="ageField" type="number" name="age" min="0" max="100" step="1"/>
-      <input type="submit" value="Add User" />
+    <h3>Quiz Creator</h3>
+    <p>below you can choose to either create your own multiple
+      choice quiz or you can choose random for a random quiz in
+      the database!
+    </p>
+    <form id="quizCreator" action="/getMake" method="get">
+      <input type="submit" value="Create Quiz" />
     </form>
-    <form id="userForm" action="/getUsers" method="get">
-      <select id='urlField'>
-        <option value='/getUsers'>/getUsers</option>
-        <option value='/notReal'>/notReal</option>
-      </select>
-      <select id="methodSelect">
-        <option value="get">GET</option>
-        <option value="head">HEAD</option>
-      </select>
-      <input type="submit" value="Get User" />
+    <form id="userCreated" action="/getQuiz" method="get">
+      <input type="submit" value="Random Quiz" />
     </form>
-  </section>
-  <section id="content">
   </section>
 </body>
 </html>

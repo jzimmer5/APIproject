@@ -1,4 +1,10 @@
-const users = {};
+const quizes = [
+   'kingTut' = {
+    question: "whos buried in King Tut's tomb",
+    choices:["King Tut","George Washington","Barack Obama","Mona Lisa"],
+    answer:"King Tut",
+  },
+];
 
 const respondJSON = (request, response, status, object) => {
   response.writeHead(status, { 'Content-Type': 'application/json' });
@@ -11,9 +17,16 @@ const respondJSONMeta = (request, response, status) => {
   response.end();
 };
 
-const getUsers = (request, response) => {
+const getQuiz = (request, response) => {
+  let quiz = [];
+  if(quizes.length > 1){
+    const picker = Math.random(0, quizes.length);
+    quiz = quizes[picker];
+  } else{
+    quiz = quizes['kingTut']
+  }
   const responseJson = {
-    users,
+    quiz,
   };
 
   respondJSON(request, response, 200, responseJson);
@@ -21,19 +34,6 @@ const getUsers = (request, response) => {
 
 const getUsersMeta = (request, response) => {
   respondJSONMeta(request, response, 200);
-};
-
-const getNotReal = (request, response) => {
-  const responseJson = {
-    message: 'not real',
-    id: '404',
-  };
-
-  respondJSON(request, response, 404, responseJson);
-};
-
-const getNotRealMeta = (request, response) => {
-  respondJSONMeta(request, response, 404);
 };
 
 const notFound = (request, response) => {
@@ -47,12 +47,12 @@ const notFound = (request, response) => {
 
 const notFoundMeta = (request, response) => respondJSONMeta(request, response, 404);
 
-const addUser = (request, response, body) => {
+const addQuiz = (request, response, body) => {
   const responseJson = {
-    message: 'Name and age are both required',
+    message: 'Question, answers, and choices are all required',
   };
 
-  if (!body.name || !body.age) {
+  if (!body.qfield || !body.choicesArray || !body.afield) {
     responseJson.id = 'missingParams';
     return respondJSON(request, response, 400, responseJson);
   }
@@ -77,11 +77,9 @@ const addUser = (request, response, body) => {
 };
 
 module.exports = {
-  getUsers,
+  getQuiz,
   getUsersMeta,
-  getNotReal,
-  getNotRealMeta,
   notFound,
   notFoundMeta,
-  addUser,
+  addQuiz,
 };

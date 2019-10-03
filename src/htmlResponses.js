@@ -1,6 +1,8 @@
 const fs = require('fs');
 
 const index = fs.readFileSync(`${__dirname}/../client/client.html`);
+const make = fs.readFileSync(`${__dirname}/../client/quizCreation.html`);
+const quiz = fs.readFileSync(`${__dirname}/../client/storedQuiz.html`);
 const css = fs.readFileSync(`${__dirname}/../client/style.css`);
 
 const getIndex = (request, response) => {
@@ -15,7 +17,21 @@ const getCSS = (request, response) => {
   response.end();
 };
 
+const getMake = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/html' });
+  response.write(make);
+  response.end();
+};
+
+const getQuiz = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'text/html' });
+  response.write(quiz);
+  response.end();
+};
+
 module.exports = {
   getIndex,
   getCSS,
+  getMake,
+  getQuiz,
 };
