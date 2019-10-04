@@ -1,8 +1,9 @@
 const quizes = [
-   'kingTut' = {
+  {
+    id: 'KingTut',
     question: "whos buried in King Tut's tomb",
-    choices:["King Tut","George Washington","Barack Obama","Mona Lisa"],
-    answer:"King Tut",
+    choices: ['King Tut', 'George Washington', 'Barack Obama', 'Mona Lisa'],
+    answer: 'King Tut',
   },
 ];
 
@@ -19,11 +20,11 @@ const respondJSONMeta = (request, response, status) => {
 
 const getQuiz = (request, response) => {
   let quiz = [];
-  if(quizes.length > 1){
+  if (quizes.length > 1) {
     const picker = Math.random(0, quizes.length);
     quiz = quizes[picker];
-  } else{
-    quiz = quizes['kingTut']
+  } else {
+    quiz = quizes[0];
   }
   const responseJson = {
     quiz,
@@ -57,16 +58,9 @@ const addQuiz = (request, response, body) => {
     return respondJSON(request, response, 400, responseJson);
   }
 
-  let responseCode = 201;
-
-  if (users[body.name]) {
-    responseCode = 204;
-  } else {
-    users[body.name] = {};
-  }
-
-  users[body.name].name = body.name;
-  users[body.name].age = body.age;
+  responseJson.message = 'Quiz Created';
+  const responseCode = 201;
+  quizes.push(body);
 
   if (responseCode === 201) {
     responseJson.message = 'Created Successfully';

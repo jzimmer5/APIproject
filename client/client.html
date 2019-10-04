@@ -22,7 +22,7 @@
         htmlResponses.getMake();
         break;
       case '/getQuiz':
-        const id = parseJSON(xhr);
+        const id = parseJSON(xhr.id);
         htmlResponses.getQuiz();
         break;
       default:
