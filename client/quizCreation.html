@@ -21,7 +21,7 @@
 
             xhr.onload = () => handleResponse(xhr);
 
-            const formData = `qfield=${qField.value}&choiceArray=${choiceArray.value}&afield=${aField.value}`;
+            const formData = `question=${qField.value}&choices=${choiceArray.value}&answer=${aField.value}`;
             xhr.send(formData);
 
             e.preventDefault();

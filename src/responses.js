@@ -1,6 +1,5 @@
 const quizes = [
   {
-    id: 'KingTut',
     question: "whos buried in King Tut's tomb",
     choices: ['King Tut', 'George Washington', 'Barack Obama', 'Mona Lisa'],
     answer: 'King Tut',
@@ -24,7 +23,7 @@ const getQuiz = (request, response) => {
     const picker = Math.random(0, quizes.length);
     quiz = quizes[picker];
   } else {
-    quiz = quizes[0];
+    quiz = quizes;
   }
   const responseJson = {
     quiz,
@@ -53,14 +52,19 @@ const addQuiz = (request, response, body) => {
     message: 'Question, answers, and choices are all required',
   };
 
-  if (!body.qfield || !body.choicesArray || !body.afield) {
+  if (!body.question || !body.choices || !body.answer) {
     responseJson.id = 'missingParams';
     return respondJSON(request, response, 400, responseJson);
   }
 
   responseJson.message = 'Quiz Created';
   const responseCode = 201;
-  quizes.push(body);
+  const userQuiz = {
+    question: body.question,
+    choices: body.choices,
+    answer: body.answer
+  };
+  quizes.push(userQuiz);
 
   if (responseCode === 201) {
     responseJson.message = 'Created Successfully';
