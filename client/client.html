@@ -22,7 +22,6 @@
         htmlResponses.getMake();
         break;
       case '/getQuiz':
-        const id = parseJSON(xhr.id);
         htmlResponses.getQuiz();
         break;
       default:
@@ -49,10 +48,10 @@
     const createQuiz = document.querySelector('#quizCreator');
     const getReg = (e) => userRequest(e,createQuiz);
     const getQuiz = document.querySelector('#userCreated');
-    const getReg = (e) => userRequest(e,getQuiz);
+    const getReg2 = (e) => userRequest(e,getQuiz);
 
     createQuiz.addEventListener('submit', getReg);
-    getQuiz.addEventListener('submit', getReg);
+    getQuiz.addEventListener('submit', getReg2);
   };
 
   </script>

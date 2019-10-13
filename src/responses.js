@@ -4,6 +4,11 @@ const quizes = [
     choices: ['King Tut', 'George Washington', 'Barack Obama', 'Mona Lisa'],
     answer: 'King Tut',
   },
+  {
+    question: "What is the students of IGME-430 favorite class?",
+    choices: ["Underwater Basket Weaving", "Archery","IGME-430","IDK, Ceramics?"],
+    answer: "IGME-430",
+  },
 ];
 
 const respondJSON = (request, response, status, object) => {
@@ -62,7 +67,7 @@ const addQuiz = (request, response, body) => {
   const userQuiz = {
     question: body.question,
     choices: body.choices,
-    answer: body.answer
+    answer: body.answer,
   };
   quizes.push(userQuiz);
 

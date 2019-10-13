@@ -1,27 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Random Quiz</title>
 </head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+<script type="text/babel">
+    const question = document.querySelector('#question');
+    const choice1 = document.querySelector('#choice1p');
+    const choice2 = document.querySelector('#choice2p');
+    const choice3 = document.querySelector('#choice3p');
+    const choice4 = document.querySelector('#choice4p');
+    var answer;
+
+    const placeQuiz = (xhr) => {
+        const quiz = JSON.parse(xhr.response);
+        console.dir(quiz);
+
+        answer = quiz.answer;
+
+        question.textContent = quiz.question;
+        for(var i = 0;i < 4; i++){
+            switch(i){
+            case 1:
+                choice1.textContent = quiz.choices[i];
+                break;
+            case 2:
+                choice2.textContent = quiz.choices[i];
+                break;
+            case 3:
+                choice3.textContent = quiz.choices[i];
+                break;
+            default:
+                choice4.textContent = quiz.choices[i];
+                break;
+            }
+        }
+    }
+
+    const checkAnwser = (e, userForm) =>{
+        var userAnwser;
+        var answerDiv;
+        if(userForm.querySelector('#c1').checked){
+            userAnwser = choice1.textContent;
+            answerDiv = userForm.querySelector('#choice1');
+        }
+        if(userForm.querySelector('#c2').checked){
+            userAnwser = choice2.textContent;
+            answerDiv = userForm.querySelector('#choice2');
+        }
+        if(userForm.querySelector('#c3').checked){
+            userAnwser = choice3.textContent;
+            answerDiv = userForm.querySelector('#choice3');
+        }
+        if(userForm.querySelector('#c4').checked){
+            userAnwser = choice4.textContent;
+            answerDiv = userForm.querySelector('#choice4');
+        }
+
+        if(userAnwser == answer){
+            answerDiv.style.backgroundColor = 'rgba(50,205,50,0.5)';
+        } else {
+            if(userForm.querySelector('#choice1p').textContent == answer){
+                answerDiv.style.backgroundColor = 'rgba(255,0,0,0.5)';
+                userForm.querySelector('#choice1').style.backgroundColor ='rgba(50,205,50,0.5)'';
+            }
+            if(userForm.querySelector('#choice2p').textContent == answer){
+                answerDiv.style.backgroundColor = 'rgba(255,0,0,0.5)';
+                userForm.querySelector('#choice2').style.backgroundColor ='rgba(50,205,50,0.5)';
+            }
+            if(userForm.querySelector('#choice3p').textContent == answer){
+                answerDiv.style.backgroundColor = 'rgba(255,0,0,0.5)';
+                userForm.querySelector('#choice4').style.backgroundColor ='rgba(50,205,50,0.5)';
+            }
+            if(userForm.querySelector('#choice4p').textContent == answer){
+                answerDiv.style.backgroundColor = 'rgba(255,0,0,0.5)';
+                userForm.querySelector('#choice4').style.backgroundColor ='rgba(50,205,50,0.5)';
+            }
+        }
+    }
+
+    const sendAjax = () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET','/getQuiz')
+        xhr.setRequestHeader("Accept",'application/json');
+        xhr.onload = () => placeQuiz(xhr);
+        xhr.send();
+    }
+
+    const init = () =>{
+        sendAjax;
+        const answerChecker = document.querySelector('#top');
+        const getReg = (e) => checkAnwser(e,answerChecker);
+        answerChecker.addEventListener('submit', getReg);
+    }
+
+    window.onload = init;
+</script>
+
 <body>
     <section id="top">
         <h3 id="question">Question Placeholder</h3>
         <div id="choice1">
-        <input type="radio" name="choice" value=""><p id="choice1">Choice1 Placeholder</p>
+            <input type="radio" name="choice" id="c1" value="">
+            <p id="choice1p">Choice1 Placeholder</p>
         </div>
         <div id="choice2">
-        <input type="radio" name="choice" value=""><p id="choice2">Choice2 Placeholder</p>
+            <input type="radio" name="choice" id="c2" value="">
+            <p id="choice2p">Choice2 Placeholder</p>
         </div>
         <div id="choice3">
-        <input type="radio" name="choice" value=""><p id="choice3">Choice3 Placeholder</p>
+            <input type="radio" name="choice" id="c3" value="">
+            <p id="choice3p">Choice3 Placeholder</p>
         </div>
         <div id="choice4">
-        <input type="radio" name="choice" value=""><p id="choice4">Choice4 Placeholder</p>
+            <input type="radio" name="choice" id="c4" value="">
+            <p id="choice4p">Choice4 Placeholder</p>
         </div>
         <input type="submit" value="Check Quiz" />
     </section>
 </body>
+
 </html>

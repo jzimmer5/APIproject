@@ -10,7 +10,7 @@ const urlStruct = {
   GET: {
     '/': htmlResponses.getIndex,
     '/style.css': htmlResponses.getCSS,
-    '/getQuiz': responses.getQuiz,
+    '/getQuiz': htmlResponses.getQuiz,
     '/getMake': htmlResponses.getMake,
     notfound: responses.notFound,
   },
