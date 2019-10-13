@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Random Quiz</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
 <script type="text/babel">
@@ -17,12 +18,14 @@
     var answer;
 
     const placeQuiz = (xhr) => {
+        console.log('placeQuiz is called')
+        if(xhr.response){
         const quiz = JSON.parse(xhr.response);
-        console.dir(quiz);
+        console.log(quiz);
 
         answer = quiz.answer;
 
-        question.textContent = quiz.question;
+        question.innerHTML = quiz.question;
         for(var i = 0;i < 4; i++){
             switch(i){
             case 1:
@@ -38,6 +41,7 @@
                 choice4.textContent = quiz.choices[i];
                 break;
             }
+        }
         }
     }
 
@@ -66,7 +70,7 @@
         } else {
             if(userForm.querySelector('#choice1p').textContent == answer){
                 answerDiv.style.backgroundColor = 'rgba(255,0,0,0.5)';
-                userForm.querySelector('#choice1').style.backgroundColor ='rgba(50,205,50,0.5)'';
+                userForm.querySelector('#choice1').style.backgroundColor = 'rgba(50,205,50,0.5)';
             }
             if(userForm.querySelector('#choice2p').textContent == answer){
                 answerDiv.style.backgroundColor = 'rgba(255,0,0,0.5)';
@@ -85,7 +89,7 @@
 
     const sendAjax = () => {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET','/getQuiz')
+        xhr.open('GET','/getQuizData')
         xhr.setRequestHeader("Accept",'application/json');
         xhr.onload = () => placeQuiz(xhr);
         xhr.send();
@@ -94,7 +98,7 @@
     const init = () =>{
         sendAjax;
         const answerChecker = document.querySelector('#top');
-        const getReg = (e) => checkAnwser(e,answerChecker);
+        const getReg = (e) => checkAnwser(e, answerChecker);
         answerChecker.addEventListener('submit', getReg);
     }
 
@@ -105,20 +109,24 @@
     <section id="top">
         <h3 id="question">Question Placeholder</h3>
         <div id="choice1">
-            <input type="radio" name="choice" id="c1" value="">
+
             <p id="choice1p">Choice1 Placeholder</p>
+            <input type="radio" name="choice" id="c1" value="">
         </div>
         <div id="choice2">
-            <input type="radio" name="choice" id="c2" value="">
+
             <p id="choice2p">Choice2 Placeholder</p>
+            <input type="radio" name="choice" id="c2" value="">
         </div>
         <div id="choice3">
-            <input type="radio" name="choice" id="c3" value="">
+
             <p id="choice3p">Choice3 Placeholder</p>
+            <input type="radio" name="choice" id="c3" value="">
         </div>
         <div id="choice4">
-            <input type="radio" name="choice" id="c4" value="">
+
             <p id="choice4p">Choice4 Placeholder</p>
+            <input type="radio" name="choice" id="c4" value="">
         </div>
         <input type="submit" value="Check Quiz" />
     </section>

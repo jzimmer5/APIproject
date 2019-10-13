@@ -11,6 +11,7 @@ const urlStruct = {
     '/': htmlResponses.getIndex,
     '/style.css': htmlResponses.getCSS,
     '/getQuiz': htmlResponses.getQuiz,
+    '/getQuizData': responses.getQuiz,
     '/getMake': htmlResponses.getMake,
     notfound: responses.notFound,
   },

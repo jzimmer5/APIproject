@@ -2,15 +2,37 @@ html, body {
   height: 100%;
   width: 100%;
   margin: 0;
-  padding: 0;
+  background-color: #77567A;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  font-family: "Didact", sans-serif;
 }
 
 #top {
+  background-color: #F0F8FC;
   text-align: center;
-  margin: 0 auto;
+  margin: 0 5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem .5rem;
+  border: 3px solid black;
 }
 
-#top h1 {
+#buttons{
+  display: flex;
+  flex-direction: row;
+}
+
+#quizCreator{
+  padding-right: .5rem;
+}
+
+#top h3 {
   font-size: 2em;
 }
 
@@ -19,3 +41,11 @@ html, body {
   font-size: 2em;
   text-align: center;
 }
+
+#choice4{
+  padding-bottom: .8rem;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url("./font/didact.woff") format("woff"); }

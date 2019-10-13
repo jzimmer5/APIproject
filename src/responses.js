@@ -73,7 +73,7 @@ const addQuiz = (request, response, body) => {
 
   if (responseCode === 201) {
     responseJson.message = 'Created Successfully';
-    return respondJSON(request, response, responseCode, responseJson);
+    return respondJSON(request, response, responseCode, userQuiz);
   }
 
   return respondJSONMeta(request, response, responseCode);
