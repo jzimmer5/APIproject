@@ -26,7 +26,7 @@ const respondJSONMeta = (request, response, status) => {
   response.end();
 };
 
-// gets a random quiz and returns it th respondJSON
+// gets a random quiz and returns it the respondJSON
 const getQuizData = (request, response) => {
   let quiz = [];
   if (quizes.length > 1) {
@@ -49,6 +49,7 @@ const getUsersMeta = (request, response) => {
   respondJSONMeta(request, response, 200);
 };
 
+// basic not found 
 const notFound = (request, response) => {
   const responseJson = {
     message: 'the page is not real',
@@ -60,6 +61,8 @@ const notFound = (request, response) => {
 
 const notFoundMeta = (request, response) => respondJSONMeta(request, response, 404);
 
+//checks to see if the quiz added has the correct params then adds them 
+//to the list of stored quizes and returns success
 const addQuiz = (request, response, body) => {
   const responseJson = {
     message: 'Question, answers, and choices are all required',

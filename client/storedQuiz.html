@@ -90,6 +90,8 @@
                 userForm.querySelector('#choice4').style.backgroundColor ='rgba(50,205,50,0.5)';
             }
         }
+        e.preventDefault();
+        false;
     }
 
     //retrieves data from the server
@@ -105,7 +107,7 @@
     const init = () =>{
         sendAjax();
         const answerChecker = document.querySelector('#top');
-        const buttonClicked = document.querySelector('#pleaseSubmit')
+        const buttonClicked = document.querySelector('#pleaseSubmit');
         const getReg = (e) => checkAnwser(e, answerChecker);
         buttonClicked.addEventListener('submit', getReg);
     }
@@ -136,9 +138,11 @@
             <p id="choice4p">Choice4 Placeholder</p>
             <input type="radio" name="choice" id="c4" value="">
         </div>
-        <div id="pleaseSubmit">
-        <input type="submit" value="Check Quiz" />
-        </div>
+        <div id="buttons">
+        <form id="pleaseSubmit">
+        <input type="submit"  value="Check Quiz" />
+        </form>
+    </div>
     </section>
 </body>
 
