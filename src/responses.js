@@ -15,7 +15,7 @@ const quizes = [
 // returns a json object
 const respondJSON = (request, response, status, object) => {
   response.writeHead(status, { 'Content-Type': 'application/json' });
-  //console.log(object);
+  // console.log(object);
   response.write(JSON.stringify(object));
   response.end();
 };
@@ -30,10 +30,10 @@ const respondJSONMeta = (request, response, status) => {
 const getQuizData = (request, response) => {
   let quiz = [];
   if (quizes.length > 1) {
-    const picker = parseInt(Math.random(0, quizes.length));
+    const picker = Math.random(0, quizes.length);
     quiz = quizes[picker.toFixed(0)];
-    //console.log("picker is: " +picker.toFixed(0));
-    //console.log("quizes @ random point: " + JSON.stringify(quizes[picker]));
+    // console.log("picker is: " +picker.toFixed(0));
+    // console.log("quizes @ random point: " + JSON.stringify(quizes[picker]));
   } else {
     quiz = quizes;
   }
@@ -41,7 +41,7 @@ const getQuizData = (request, response) => {
     quiz,
   };
 
-  //console.log("quizes: "+ Object.values(quizes));
+  // console.log("quizes: "+ Object.values(quizes));
   respondJSON(request, response, 200, responseJson);
 };
 
