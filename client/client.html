@@ -7,14 +7,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
   const htmlResponses = require('../src/htmlResponses.js');
-  const parseJSON = (xhr) =>{
-    const obj = JSON.parse(xhr.response);
 
-    if(obj.quizes) {
-      return obj.quizes.value;
-    }
-  };
-
+  //provides the correct html page to the url that xhr returns
   const handleResponse = (xhr) =>{
 
     switch(xhr.url){
@@ -30,13 +24,14 @@
     }
   };
 
+  //takes the users request and sends it to the proper url
   const userRequest = (e, userForm) => {
     const url = userForm.getAttribute('action');
 
     const xhr = new XMLHttpRequest();
-    xhr.open('get', url);
+    xhr.open('GET', url);
 
-    xhr.setRequestHeader('Accept', 'get');
+    xhr.setRequestHeader('Accept', 'application/json');
     xhr.onload = () => handleResponse(xhr);
     xhr.send();
 
@@ -44,6 +39,7 @@
     return false;
   };
 
+  //creates a init where it assigns event listeners to the buttons on the form
   const init = () => {
     const createQuiz = document.querySelector('#quizCreator');
     const getReg = (e) => userRequest(e,createQuiz);

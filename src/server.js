@@ -6,12 +6,13 @@ const htmlResponses = require('./htmlResponses.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
+// urlStruct of all the urls in the api
 const urlStruct = {
   GET: {
     '/': htmlResponses.getIndex,
     '/style.css': htmlResponses.getCSS,
     '/getQuiz': htmlResponses.getQuiz,
-    '/getQuizData': responses.getQuiz,
+    '/getQuizData': responses.getQuizData,
     '/getMake': htmlResponses.getMake,
     notfound: responses.notFound,
   },
@@ -22,6 +23,7 @@ const urlStruct = {
   },
 };
 
+// handles when the server takes in a post request
 const handlePost = (request, response, parsedUrl) => {
   if (parsedUrl.pathname === '/addQuiz') {
     const res = response;
@@ -46,6 +48,7 @@ const handlePost = (request, response, parsedUrl) => {
   }
 };
 
+// checks to see what request the user wants
 const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
   const params = parsedUrl.query;

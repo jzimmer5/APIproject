@@ -1,3 +1,4 @@
+// holds the quizes in a array of objects
 const quizes = [
   {
     question: "whos buried in King Tut's tomb",
@@ -5,28 +6,34 @@ const quizes = [
     answer: 'King Tut',
   },
   {
-    question: "What is the students of IGME-430 favorite class?",
-    choices: ["Underwater Basket Weaving", "Archery","IGME-430","IDK, Ceramics?"],
-    answer: "IGME-430",
+    question: 'What is the students of IGME-430 favorite class?',
+    choices: ['Underwater Basket Weaving', 'Archery', 'IGME-430', 'IDK, Ceramics?'],
+    answer: 'IGME-430',
   },
 ];
 
+// returns a json object
 const respondJSON = (request, response, status, object) => {
   response.writeHead(status, { 'Content-Type': 'application/json' });
+  //console.log(object);
   response.write(JSON.stringify(object));
   response.end();
 };
 
+// returns the Headers in json
 const respondJSONMeta = (request, response, status) => {
   response.writeHead(status, { 'Content-Type': 'application/json' });
   response.end();
 };
 
-const getQuiz = (request, response) => {
+// gets a random quiz and returns it th respondJSON
+const getQuizData = (request, response) => {
   let quiz = [];
   if (quizes.length > 1) {
-    const picker = Math.random(0, quizes.length);
-    quiz = quizes[picker];
+    const picker = parseInt(Math.random(0, quizes.length));
+    quiz = quizes[picker.toFixed(0)];
+    //console.log("picker is: " +picker.toFixed(0));
+    //console.log("quizes @ random point: " + JSON.stringify(quizes[picker]));
   } else {
     quiz = quizes;
   }
@@ -34,6 +41,7 @@ const getQuiz = (request, response) => {
     quiz,
   };
 
+  //console.log("quizes: "+ Object.values(quizes));
   respondJSON(request, response, 200, responseJson);
 };
 
@@ -80,7 +88,7 @@ const addQuiz = (request, response, body) => {
 };
 
 module.exports = {
-  getQuiz,
+  getQuizData,
   getUsersMeta,
   notFound,
   notFoundMeta,

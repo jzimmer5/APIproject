@@ -10,6 +10,7 @@
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
 <script type="text/babel">
+    //gets a reference to the text in the document
     const question = document.querySelector('#question');
     const choice1 = document.querySelector('#choice1p');
     const choice2 = document.querySelector('#choice2p');
@@ -17,35 +18,39 @@
     const choice4 = document.querySelector('#choice4p');
     var answer;
 
+    //replaces the text with the quiz info we got from the server
     const placeQuiz = (xhr) => {
-        console.log('placeQuiz is called')
+        //console.log('placeQuiz is called')
         if(xhr.response){
+        //console.log(xhr.response);
         const quiz = JSON.parse(xhr.response);
-        console.log(quiz);
+        //console.log(quiz.quiz);
 
-        answer = quiz.answer;
+        answer = quiz.quiz.answer;
 
-        question.innerHTML = quiz.question;
+        question.innerHTML = quiz.quiz.question;
         for(var i = 0;i < 4; i++){
             switch(i){
             case 1:
-                choice1.textContent = quiz.choices[i];
+                choice1.textContent = quiz.quiz.choices[i];
                 break;
             case 2:
-                choice2.textContent = quiz.choices[i];
+                choice2.textContent = quiz.quiz.choices[i];
                 break;
             case 3:
-                choice3.textContent = quiz.choices[i];
+                choice3.textContent = quiz.quiz.choices[i];
                 break;
             default:
-                choice4.textContent = quiz.choices[i];
+                choice4.textContent = quiz.quiz.choices[i];
                 break;
             }
         }
         }
     }
 
+    //checks the users answer with the correct answer and highlights the wrong and correct one
     const checkAnwser = (e, userForm) =>{
+        console.log("check answer is running");
         var userAnwser;
         var answerDiv;
         if(userForm.querySelector('#c1').checked){
@@ -87,6 +92,7 @@
         }
     }
 
+    //retrieves data from the server
     const sendAjax = () => {
         const xhr = new XMLHttpRequest();
         xhr.open('GET','/getQuizData')
@@ -95,11 +101,13 @@
         xhr.send();
     }
 
+    //initializes the page calling sendAjax and adding a event listener to the button
     const init = () =>{
-        sendAjax;
+        sendAjax();
         const answerChecker = document.querySelector('#top');
+        const buttonClicked = document.querySelector('#pleaseSubmit')
         const getReg = (e) => checkAnwser(e, answerChecker);
-        answerChecker.addEventListener('submit', getReg);
+        buttonClicked.addEventListener('submit', getReg);
     }
 
     window.onload = init;
@@ -128,7 +136,9 @@
             <p id="choice4p">Choice4 Placeholder</p>
             <input type="radio" name="choice" id="c4" value="">
         </div>
+        <div id="pleaseSubmit">
         <input type="submit" value="Check Quiz" />
+        </div>
     </section>
 </body>
 
